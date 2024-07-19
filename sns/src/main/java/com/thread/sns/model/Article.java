@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -28,15 +29,17 @@ public class Article {
     public void addCategory(Category category) {
         ArticleCategory articleCategory = new ArticleCategory(this, category);
         articleCategories.add(articleCategory);
-        category.getArticleCategories().add(articleCategory);
     }
 
-    public void removeAllCategories() {
-        for (ArticleCategory articleCategory : new HashSet<>(articleCategories)) {
-            articleCategory.getCategory().getArticleCategories().remove(articleCategory);
-            articleCategory.setArticle(null);
-            articleCategory.setCategory(null);
+    public void removeCategory(Category category) {
+        for (Iterator<ArticleCategory> iterator = articleCategories.iterator(); iterator.hasNext();) {
+            ArticleCategory articleCategory = iterator.next();
+            if (articleCategory.getCategory().equals(category)) {
+                iterator.remove();
+                articleCategory.getCategory().getArticleCategories().remove(articleCategory);
+                articleCategory.setArticle(null);
+                articleCategory.setCategory(null);
+            }
         }
-        articleCategories.clear();
     }
 }
