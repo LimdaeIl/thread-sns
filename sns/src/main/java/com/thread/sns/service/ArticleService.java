@@ -6,6 +6,7 @@ import com.thread.sns.model.Category;
 import com.thread.sns.repository.ArticleCategoryRepository;
 import com.thread.sns.repository.ArticleRepository;
 import com.thread.sns.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,18 +16,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
-    private final ArticleCategoryRepository articleCategoryRepository;
-
-    public ArticleService(ArticleRepository articleRepository, CategoryRepository categoryRepository, ArticleCategoryRepository articleCategoryRepository) {
-        this.articleRepository = articleRepository;
-        this.categoryRepository = categoryRepository;
-        this.articleCategoryRepository = articleCategoryRepository;
-    }
 
     @Transactional
     public Article createArticle(String title, String content, List<Long> categoryIds) {
